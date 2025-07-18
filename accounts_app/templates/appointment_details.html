@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Details</title>
+</head>
+<body>
+    <h2>Appointment Details</h2>
+    <p>Doctor: {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</p>
+    <p>Date: {{ appointment.date }}</p>
+    <p>Start Time: {{ appointment.start_time }}</p>
+    <p>End Time: {{ appointment.end_time }}</p>
+    <a href="{% url 'patient_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

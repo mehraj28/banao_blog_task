@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .errorlist {
+            color: red;
+            margin: 0 0 10px 0;
+            padding: 0;
+            list-style: none;
+        }
+        button {
+            width: 30%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        a {
+            text-align : center;
+            width: 30%;
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        a:hover {
+            background-color: #45a049;
+        }
+        .button-container {
+            padding-left : 120px;
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ user_type }} Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+            <ul class="errorlist">
+                {% for error in form.first_name.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+            <ul class="errorlist">
+                {% for error in form.last_name.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.profile_picture.id_for_label }}">Profile Picture:</label>
+        {{ form.profile_picture }}
+        {% if form.profile_picture.errors %}
+            <ul class="errorlist">
+                {% for error in form.profile_picture.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <ul class="errorlist">
+                {% for error in form.username.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <ul class="errorlist">
+                {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <ul class="errorlist">
+                {% for error in form.password1.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <ul class="errorlist">
+                {% for error in form.password2.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.address_line1.id_for_label }}">Address Line 1:</label>
+        {{ form.address_line1 }}
+        {% if form.address_line1.errors %}
+            <ul class="errorlist">
+                {% for error in form.address_line1.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.city.id_for_label }}">City:</label>
+        {{ form.city }}
+        {% if form.city.errors %}
+            <ul class="errorlist">
+                {% for error in form.city.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.state.id_for_label }}">State:</label>
+        {{ form.state }}
+        {% if form.state.errors %}
+            <ul class="errorlist">
+                {% for error in form.state.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <label for="{{ form.pincode.id_for_label }}">Pincode:</label>
+        {{ form.pincode }}
+        {% if form.pincode.errors %}
+            <ul class="errorlist">
+                {% for error in form.pincode.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="button-container">
+            <button type="submit">Sign Up</button>
+            <a href="{% url 'home' %}">Back</a>
+        </div>
+    </form>
+</body>
+</html>

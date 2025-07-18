@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Calendar Integration Instructions</title>
+</head>
+<body>
+    <h1>Welcome to Banao!</h1>
+    <p>Dear Dr. {{ doctor_name }},</p>
+    <p>Thank you for signing up with Banao. To ensure that appointment bookings are automatically added to your Google Calendar, please follow these steps to grant access to our service account:</p>
+    <ol>
+        <li>Open <a href="https://calendar.google.com/">Google Calendar</a>.</li>
+        <li>Go to settings</li>
+        <li>Select your calendar from the left-hand menu.</li>
+        <li>Access Calendar Settings by clicking on the three vertical dots next to the calendar name and selecting "Settings and sharing."</li>
+        <li>Scroll down to the "Share with specific people" section and click on "Add people."</li>
+        <li>Enter the email <strong>{{ service_account_email }}</strong> in the email field.</li>
+        <li>From the permissions dropdown, select "Make changes to events" and click "Send."</li>
+        <li>Confirm the access.</li>
+    </ol>
+    <p>If you encounter any issues or have any questions, please do not hesitate to contact our support team at yaradineshkumar@gmail.com.</p>
+    <p>Thank you,<br>Banao Team</p>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        img.profile-picture {
+            border-radius: 50%;
+            margin-bottom: 20px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        p {
+            font-size: 1.2em;
+            color: #666;
+            margin: 10px 0;
+        }
+        button, a {
+            display: inline-block;
+            width: auto;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover, a:hover {
+            background-color: #45a049;
+        }
+        .section {
+            margin-top: 50px;
+            text-align: left;
+        }
+        .doctor-list, .blog-container, .appointment-details {
+            margin-bottom: 30px;
+        }
+        .doctor-item, .blog-post, .appointment-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 20px 0;
+            position: relative;
+        }
+        .doctor-item img, .blog-post img {
+            width: 100px; /* Adjust the size of doctor images */
+            height: 100px; /* Adjust the size of doctor images */
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .doctor-item h3, .blog-post h3, .appointment-item h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+        .doctor-item .book-button, .appointment-item .view-details-button {
+            margin-left: auto;
+        }
+        .blog-post p, .appointment-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .blog-post .summary {
+            font-weight: bold;
+        }
+        .blog-post .category, .appointment-item .details {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Patient Dashboard</h2>
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+        {% endif %}
+        <p>Welcome, {{ user.first_name }} {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Address: {{ user.address_line1 }}, {{ user.city }}, {{ user.state }}, {{ user.pincode }}</p>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+
+        <h2>Doctors List</h2>
+        <ul style="list-style-type: none; padding-left: 0;">
+            {% for doctor in doctors %}
+            <li style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center;">
+                    {% if doctor.profile_picture %}
+                    <img src="{{ doctor.profile_picture.url }}" alt="{{ doctor.first_name }} {{ doctor.last_name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; margin-right: 20px;">
+                    {% endif %}
+                    <div>
+                        <h3>{{ doctor.first_name }} {{ doctor.last_name }}</h3>
+                        <p>{{ doctor.email }}</p>
+                        <form method="get" action="{% url 'book_appointment' doctor.id %}">
+                            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.3s;">Book Appointment</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            {% empty %}
+            <li>No doctors available</li>
+            {% endfor %}
+        </ul>
+
+        <div class="section appointment-details">
+            <h3>Your Appointments</h3>
+            {% if appointments %}
+                {% for appointment in appointments %}
+                    <div class="appointment-item" style="border-bottom: 1px solid #ccc; padding: 20px 0;">
+                        <h3>Appointment with Dr. {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</h3>
+                        <p class="details" style="margin: 5px 0; color: #666;">
+                            <strong>Date:</strong> {{ appointment.date }} <br>
+                            <strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }}
+                        </p>
+                        <a href="{% url 'appointment_details' appointment.id %}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.3s;">View Details</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No appointments found.</p>
+            {% endif %}
+        </div>
+
+        <div class="section blog-container">
+            <h3>Blog Posts</h3>
+            {% for post in posts %}
+                <div class="blog-post" style="display: flex; align-items: center; border-bottom: 1px solid #ccc; padding: 20px 0;">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; margin-right: 20px;">
+                    <div>
+                        <h3>{{ post.title }}</h3>
+                        <p class="summary" style="font-weight: bold;">{{ post.summary }}</p>
+                        <p>{{ post.content }}</p>
+                        <p class="category" style="color: #999;"><strong>Category:</strong> {{ post.category }}</p>
+                        <p class="author-name" style="color: #666;">by {{ post.author.first_name }} {{ post.author.last_name }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
